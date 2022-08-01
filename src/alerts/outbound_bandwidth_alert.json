@@ -1,0 +1,28 @@
+{
+  "id": "db414be8-69ed-4e39-8514-f283766c766b",
+  "metricSelector": "func:com.dynatrace.extension.snmp-generic-device.if.out.bandwidth",
+  "name": "High outbound bandwidth utilization",
+  "description": "The {metricname} value of {severity} was {alert_condition} your custom threshold of {threshold}.",
+  "severity": "CUSTOM_ALERT",
+  "enabled": true,
+  "disabledReason": "NONE",
+  "warningReason": "NONE",
+  "monitoringStrategy": {
+    "type": "STATIC_THRESHOLD",
+    "samples": 5,
+    "violatingSamples": 3,
+    "dealertingSamples": 5,
+    "alertCondition": "ABOVE",
+    "alertingOnMissingData": false,
+    "threshold": 90,
+    "unit": "PERCENT"
+  },
+  "primaryDimensionKey": "dt.entity.snmp:com_dynatrace_extension_snmp_generic_device_interface",
+  "alertCondition": "ABOVE",
+  "samples": 5,
+  "violatingSamples": 3,
+  "dealertingSamples": 5,
+  "threshold": 90,
+  "unit": "PERCENT",
+  "eventType": "CUSTOM_ALERT"
+}
