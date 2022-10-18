@@ -12,11 +12,11 @@ let
       jsonschema
     ];
   dtcli = with pkgs; stdenv.mkDerivation rec {
-    version = "1.5.3";
+    version = "1.6.10";
     name = "dtcli-${version}";
     src = fetchurl {
       url = "https://github.com/dynatrace-oss/dt-cli/releases/download/v${version}/dt";
-      sha256 = "sha256-S7IkgBYzDcsEsN/sejN02O6NFokSwrGXFEYw8YrcskI=";
+      sha256 = "1adcvhb464z9hfhygfrzrkb4qsa8vfx7lhsvj615ni7md1g1nx71";
     };
 
     unpackPhase = ''
