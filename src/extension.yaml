@@ -1,13 +1,22 @@
 name: com.dynatrace.extension.snmp-generic-device
-version: 1.4.3
+version: 1.5.0
 minDynatraceVersion: "1.238"
 author:
   name: Dynatrace
 
 vars: 
- - id: ext.activationtag
-   displayName: Extension activation tag
-   type: pattern
+  - id: ext.activationtag
+    displayName: Extension activation tag
+    type: pattern
+  - id: if_name
+    type: pattern 
+    displayName: Pattern to filter capturing of Interfaces by Name
+  - id: if_admin_status
+    type: pattern
+    displayName: Pattern to filter capturing of Interfaces by Admin Status
+  - id: if_oper_status
+    type: pattern
+    displayName: Pattern to filter capturing of Interfaces by Operational Status
 
 metrics:
   - key: com.dynatrace.extension.snmp-generic-device.snmp.in.pkts.count
@@ -323,6 +332,7 @@ snmp:
             value: oid:1.3.6.1.2.1.2.2.1.1
           - key: if.descr
             value: oid:1.3.6.1.2.1.2.2.1.2
+            filter: var:if_name
           - key: if.type
             value: oid:1.3.6.1.2.1.2.2.1.3
           - key: if.mtu  # Largest packet/datagram which can be sent/received on the interface
@@ -333,8 +343,10 @@ snmp:
             value: oid:1.3.6.1.2.1.31.1.1.1.15
           - key: if.adminstatus  # The desired state of the interface - up(1) down(2) testing(3)
             value: oid:1.3.6.1.2.1.2.2.1.7
+            filter: var:if_admin_status
           - key: if.operstatus  # The current operational state of the interface - up(1) down(2) testing(3) unknown(4) dormant(5) notPresent(6) lowerLayerDown(7)
             value: oid:1.3.6.1.2.1.2.2.1.8
+            filter: var:if_oper_status
           - key: if.promiscuousmode  # True if this interface accepts all packets/frames false if only accepts packets/frames addressed to this station
             value: oid:1.3.6.1.2.1.31.1.1.1.16   
         metrics:
