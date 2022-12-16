@@ -13,3 +13,6 @@ secrets/*
 
 # internal tooling hooks
 dynatrace-internal
+
+# IDE
+.idea/
