@@ -473,7 +473,7 @@
       "queries": [
         {
           "id": "C",
-          "metric": "func:com.dynatrace.extension.snmp-generic-device.if.in.octets.bitpersec",
+          "metric": "func:com.dynatrace.extension.snmp-generic-device.if.hc.in.octets.bitpersec",
           "spaceAggregation": "AVG",
           "timeAggregation": "DEFAULT",
           "splitBy": [],
@@ -486,7 +486,7 @@
         },
         {
           "id": "D",
-          "metric": "func:com.dynatrace.extension.snmp-generic-device.if.out.octets.bitpersec",
+          "metric": "func:com.dynatrace.extension.snmp-generic-device.if.hc.out.octets.bitpersec",
           "spaceAggregation": "AVG",
           "timeAggregation": "DEFAULT",
           "splitBy": [],

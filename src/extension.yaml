@@ -1,5 +1,5 @@
 name: com.dynatrace.extension.snmp-generic-device
-version: 1.6.0
+version: 1.7.0
 minDynatraceVersion: "1.251"
 author:
   name: Dynatrace
@@ -116,11 +116,21 @@ metrics:
       displayName: Octets transmitted
       description: The total number of octets transmitted out of the interface including framing characters
       unit: Count
+  - key: com.dynatrace.extension.snmp-generic-device.if.hc.out.octets.count
+    metadata:
+      displayName: Octets transmitted (high capacity)
+      description: The total number of octets transmitted out of the interface including framing characters. This metric uses 64 bit counter and should be used for highspeed devices.
+      unit: Count
   - key: com.dynatrace.extension.snmp-generic-device.if.in.octets.count
     metadata:
       displayName: Octets received
       description: The total number of octets received on the interface including framing characters
       unit: Count
+  - key: com.dynatrace.extension.snmp-generic-device.if.hc.in.octets.count
+    metadata:
+      displayName: Octets received (high capacity)
+      description: The total number of octets received on the interface including framing characters. This metric uses 64 bit counter and should be used for highspeed devices.
+      unit: Count      
   - key: com.dynatrace.extension.snmp-generic-device.tcp.activeopens.count
     metadata:
       displayName: TCP active opens
@@ -224,6 +234,13 @@ metrics:
       displayName: Interface incoming traffic
       description: Incoming network traffic on interface in bits per second.
       unit: BitPerSecond
+  - key: func:com.dynatrace.extension.snmp-generic-device.if.hc.in.octets.bitpersec
+    query:
+      metricSelector: '((com.dynatrace.extension.snmp-generic-device.if.hc.in.octets.count) * (8)):rate(1s)'
+    metadata:
+      displayName: Interface incoming traffic (high capacity)
+      description: Incoming network traffic on interface in bits per second. This metric uses high capacity octet metrics and should be used for highspeed devices. 
+      unit: BitPerSecond
   - key: func:com.dynatrace.extension.snmp-generic-device.if.out.octets.bitpersec
     query:
       metricSelector: '((com.dynatrace.extension.snmp-generic-device.if.out.octets.count) * (8)):rate(1s)'
@@ -231,23 +248,30 @@ metrics:
       displayName: Interface outgoing traffic
       description: Outgoing network traffic on interface in bits per second.
       unit: BitPerSecond
+  - key: func:com.dynatrace.extension.snmp-generic-device.if.hc.out.octets.bitpersec
+    query:
+      metricSelector: '((com.dynatrace.extension.snmp-generic-device.if.hc.out.octets.count) * (8)):rate(1s)'
+    metadata:
+      displayName: Interface outgoing traffic (high capacity)
+      description: Outgoing network traffic on interface in bits per second. This metric uses high capacity octet metrics and should be used for highspeed devices. 
+      unit: BitPerSecond
   - key: func:com.dynatrace.extension.snmp-generic-device.if.bandwidth
     query:
-      metricSelector: '((((((com.dynatrace.extension.snmp-generic-device.if.in.octets.count) * (8)):rate(1s))+(((com.dynatrace.extension.snmp-generic-device.if.out.octets.count) * (8)):rate(1s)))/((com.dynatrace.extension.snmp-generic-device.if.highspeed) * 1000000)) * (100))'
+      metricSelector: '((((((com.dynatrace.extension.snmp-generic-device.if.hc.in.octets.count) * (8)):rate(1s))+(((com.dynatrace.extension.snmp-generic-device.if.hc.out.octets.count) * (8)):rate(1s)))/((com.dynatrace.extension.snmp-generic-device.if.highspeed) * 1000000)) * (100))'
     metadata:
       displayName: Interface bandwidth utilization
       description: Bandwidth utilization on interface. Computed as sum of incoming and outgoing traffic divided by interface speed. Presented as percentage.
       unit: Percent
   - key: func:com.dynatrace.extension.snmp-generic-device.if.in.bandwidth
     query:
-      metricSelector: '(((((com.dynatrace.extension.snmp-generic-device.if.in.octets.count) * (8)):rate(1s))/((com.dynatrace.extension.snmp-generic-device.if.highspeed) * (1000000))) * (100))'
+      metricSelector: '(((((com.dynatrace.extension.snmp-generic-device.if.hc.in.octets.count) * (8)):rate(1s))/((com.dynatrace.extension.snmp-generic-device.if.highspeed) * (1000000))) * (100))'
     metadata:
       displayName: Inbound bandwidth utilization
       description: Inbound bandwidth utilization on interface. Computed as sum of incoming traffic divided by interface speed. Presented as percentage.
-      unit: Percent
+      unit: Percent     
   - key: func:com.dynatrace.extension.snmp-generic-device.if.out.bandwidth
     query:
-      metricSelector: '(((((com.dynatrace.extension.snmp-generic-device.if.out.octets.count) * (8)):rate(1s))/((com.dynatrace.extension.snmp-generic-device.if.highspeed) * (1000000))) * (100))'
+      metricSelector: '(((((com.dynatrace.extension.snmp-generic-device.if.hc.out.octets.count) * (8)):rate(1s))/((com.dynatrace.extension.snmp-generic-device.if.highspeed) * (1000000))) * (100))'
     metadata:
       displayName: Outbound bandwidth utilization
       description: Outbound bandwidth utilization on interface. Computed as sum of outgoing traffic divided by interface speed. Presented as percentage.
@@ -360,10 +384,18 @@ snmp:
             #The total number of octets received on the interface including framing characters.
             value: oid:1.3.6.1.2.1.2.2.1.10
             type: count
+          - key: com.dynatrace.extension.snmp-generic-device.if.hc.in.octets.count
+            #"The total number of octets received on the interface including framing characters. 64bit version
+            value: oid:1.3.6.1.2.1.31.1.1.1.6
+            type: count
           - key: com.dynatrace.extension.snmp-generic-device.if.out.octets.count
             #The total number of octets transmitted out of the interface including framing characters.
             value: oid:1.3.6.1.2.1.2.2.1.16
             type: count
+          - key: com.dynatrace.extension.snmp-generic-device.if.hc.out.octets.count
+            #The total number of octets transmitted out of the interface including framing characters. 64bit version 
+            value: oid:1.3.6.1.2.1.31.1.1.1.10
+            type: count            
           - key: com.dynatrace.extension.snmp-generic-device.if.in.errors.count
             #The number of inbound packets/transmission units with errors
             value: oid:1.3.6.1.2.1.2.2.1.14
@@ -693,8 +725,8 @@ screens:
                 themeColor: ROYALBLUE
                 seriesType: LINE
               metrics:
-                - metricSelector: "func:com.dynatrace.extension.snmp-generic-device.if.out.octets.bitpersec:splitBy()"
-                - metricSelector: "func:com.dynatrace.extension.snmp-generic-device.if.in.octets.bitpersec:splitBy()"
+                - metricSelector: "func:com.dynatrace.extension.snmp-generic-device.if.hc.out.octets.bitpersec:splitBy()"
+                - metricSelector: "func:com.dynatrace.extension.snmp-generic-device.if.hc.in.octets.bitpersec:splitBy()"
           - displayName: "Bandwidth Utilization In & Out"
             visualizationType: GRAPH_CHART
             graphChartConfig:
@@ -812,8 +844,8 @@ screens:
           visualizationType: GRAPH_CHART
           graphChartConfig:
             metrics:
-            - metricSelector: "func:com.dynatrace.extension.snmp-generic-device.if.in.octets.bitpersec"
-            - metricSelector: "func:com.dynatrace.extension.snmp-generic-device.if.out.octets.bitpersec"
+            - metricSelector: "func:com.dynatrace.extension.snmp-generic-device.if.hc.in.octets.bitpersec"
+            - metricSelector: "func:com.dynatrace.extension.snmp-generic-device.if.hc.out.octets.bitpersec"
         - displayName: "Bandwidth"
           visualizationType: GRAPH_CHART
           graphChartConfig:
@@ -886,8 +918,8 @@ screens:
             visualizationType: GRAPH_CHART
             graphChartConfig:
               metrics:
-              - metricSelector: func:com.dynatrace.extension.snmp-generic-device.if.out.octets.bitpersec
-              - metricSelector: func:com.dynatrace.extension.snmp-generic-device.if.in.octets.bitpersec
+              - metricSelector: func:com.dynatrace.extension.snmp-generic-device.if.hc.out.octets.bitpersec
+              - metricSelector: func:com.dynatrace.extension.snmp-generic-device.if.hc.in.octets.bitpersec
           - displayName: Bandwidth utilization
             visualizationType: GRAPH_CHART
             graphChartConfig:
