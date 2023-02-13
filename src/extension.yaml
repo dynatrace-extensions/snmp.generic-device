@@ -1,5 +1,5 @@
 name: com.dynatrace.extension.snmp-generic-device
-version: 1.7.0
+version: 1.8.0
 minDynatraceVersion: "1.251"
 author:
   name: Dynatrace
@@ -506,16 +506,6 @@ topology:
           displayName: Network Interface Count
         requiredDimensions: []
         instanceNamePattern: Network device {sys.name} @ {device.address}:{device.port}
-      - idPattern: snmp_generic_device_{device.address}
-        sources:
-          - sourceType: Logs
-        attributes:
-          - pattern: '{device.address}'
-            key: dt.ip_addresses
-            displayName: Device Address
-        requiredDimensions:
-          - key: log.source
-            valuePattern: '$eq(snmptraps)'
 
     - name: snmp:com_dynatrace_extension_snmp_generic_device_interface
       displayName: Generic SNMP Device Network Interface
@@ -569,7 +559,13 @@ topology:
       toType: snmptraps:com_dynatrace_ext_snmp-traps
       enabled: true
       sources:
-      - sourceType: Logs
+      - sourceType: Entities
+        mappingRules:
+          - sourceProperty: dt.ip_addresses
+            sourceTransformation: Leave text as-is
+            destinationProperty: dt.ip_addresses
+            destinationTransformation: Leave text as-is
+          
 screens:
   - entityType: snmptraps:com_dynatrace_ext_snmp-traps
     detailsInjections:
@@ -647,7 +643,7 @@ screens:
     logsCards:
     - displayName: Traps and logs
       enablePaging: true
-      filterQuery: dt.source_entity inEntitySelector "$(entityConditions)"
+      filterQuery: dt.source_entity inEntitySelector "type(snmptraps:com_dynatrace_ext_snmp-traps),toRelationships.isSameAs($(entityConditions))"
       key: traps_logs
       pageSize: 10
       showFiltering: true
