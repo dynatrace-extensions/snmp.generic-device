@@ -1,5 +1,5 @@
 name: com.dynatrace.extension.snmp-generic-device
-version: 1.8.0
+version: 1.9.0
 minDynatraceVersion: "1.251"
 author:
   name: Dynatrace
@@ -384,18 +384,22 @@ snmp:
             #The total number of octets received on the interface including framing characters.
             value: oid:1.3.6.1.2.1.2.2.1.10
             type: count
+            featureSet: "Interfaces 32-bit"            
           - key: com.dynatrace.extension.snmp-generic-device.if.hc.in.octets.count
             #"The total number of octets received on the interface including framing characters. 64bit version
             value: oid:1.3.6.1.2.1.31.1.1.1.6
             type: count
+            featureSet: "Interfaces 64-bit"
           - key: com.dynatrace.extension.snmp-generic-device.if.out.octets.count
             #The total number of octets transmitted out of the interface including framing characters.
             value: oid:1.3.6.1.2.1.2.2.1.16
             type: count
+            featureSet: "Interfaces 32-bit"
           - key: com.dynatrace.extension.snmp-generic-device.if.hc.out.octets.count
             #The total number of octets transmitted out of the interface including framing characters. 64bit version 
             value: oid:1.3.6.1.2.1.31.1.1.1.10
-            type: count            
+            type: count    
+            featureSet: "Interfaces 64-bit"
           - key: com.dynatrace.extension.snmp-generic-device.if.in.errors.count
             #The number of inbound packets/transmission units with errors
             value: oid:1.3.6.1.2.1.2.2.1.14
@@ -836,7 +840,7 @@ screens:
         enableDetailsExpandability: true
         numberOfVisibleCharts: 2
         charts:
-        - displayName: "Traffic"
+        - displayName: "Traffic 64-bit"
           visualizationType: GRAPH_CHART
           graphChartConfig:
             metrics:
@@ -848,6 +852,12 @@ screens:
             metrics:
             - metricSelector: "func:com.dynatrace.extension.snmp-generic-device.if.in.bandwidth"
             - metricSelector: "func:com.dynatrace.extension.snmp-generic-device.if.out.bandwidth"
+        - displayName: "Traffic 32-bit"
+          visualizationType: GRAPH_CHART
+          graphChartConfig:
+            metrics:
+            - metricSelector: "func:com.dynatrace.extension.snmp-generic-device.if.in.octets.bitpersec"
+            - metricSelector: "func:com.dynatrace.extension.snmp-generic-device.if.out.octets.bitpersec"
         displayIcons: true
         columns:
         - type: ATTRIBUTE
@@ -910,7 +920,7 @@ screens:
         displayName: Interface traffic
         numberOfVisibleCharts: 2
         charts:
-          - displayName: Traffic
+          - displayName: Traffic 64-bit
             visualizationType: GRAPH_CHART
             graphChartConfig:
               metrics:
@@ -922,6 +932,12 @@ screens:
               metrics:
               - metricSelector: func:com.dynatrace.extension.snmp-generic-device.if.out.bandwidth
               - metricSelector: func:com.dynatrace.extension.snmp-generic-device.if.in.bandwidth
+          - displayName: Traffic 32-bit
+            visualizationType: GRAPH_CHART
+            graphChartConfig:
+              metrics:
+              - metricSelector: func:com.dynatrace.extension.snmp-generic-device.if.out.octets.bitpersec
+              - metricSelector: func:com.dynatrace.extension.snmp-generic-device.if.in.octets.bitpersec
       - key: other
         displayName: Errors and discards
         numberOfVisibleCharts: 2
