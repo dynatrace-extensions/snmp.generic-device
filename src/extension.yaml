@@ -1,21 +1,22 @@
 name: com.dynatrace.extension.snmp-generic-device
-version: 1.9.0
-minDynatraceVersion: "1.251"
+version: 1.10.0
+minEECVersion: "1.251"
+minDynatraceVersion: "1.256"
 author:
   name: Dynatrace
 
-vars: 
+vars:
   - id: ext.activationtag
     displayName: Extension activation tag
-    type: pattern
+    type: text
   - id: if_name
-    type: pattern 
+    type: text 
     displayName: Pattern to filter capturing of Interfaces by Name
   - id: if_admin_status
-    type: pattern
+    type: text
     displayName: Pattern to filter capturing of Interfaces by Admin Status
   - id: if_oper_status
-    type: pattern
+    type: text
     displayName: Pattern to filter capturing of Interfaces by Operational Status
 
 metrics:
@@ -24,61 +25,73 @@ metrics:
       displayName: Messages delivered
       description: Total number of messages delivered from the transport service
       unit: Count
+      sourceEntityType: snmp:com_dynatrace_extension_snmp_generic_device
   - key: com.dynatrace.extension.snmp-generic-device.snmp.out.pkts.count
     metadata:
       displayName: Messages passed
       description: Total number of messages passed to the transport service
       unit: Count
+      sourceEntityType: snmp:com_dynatrace_extension_snmp_generic_device
   - key: com.dynatrace.extension.snmp-generic-device.snmp.silentdrops.count
     metadata:
       displayName: Silently dropped PDUs
       description: Number of silently dropped PDUs due to the large reply size
       unit: Count
+      sourceEntityType: snmp:com_dynatrace_extension_snmp_generic_device
   - key: com.dynatrace.extension.snmp-generic-device.drops.proxy.count
     metadata:
       displayName: Proxy dropped PDUs
       description: Number of silently dropped PDUs due to the other than a time-out
       unit: Count
+      sourceEntityType: snmp:com_dynatrace_extension_snmp_generic_device
   - key: com.dynatrace.extension.snmp-generic-device.in.bad.versions.count
     metadata:
       displayName: Unsupported SNMP version messages
       description: Total number of messages delivered with an unsupported SNMP version
       unit: Count
+      sourceEntityType: snmp:com_dynatrace_extension_snmp_generic_device
   - key: com.dynatrace.extension.snmp-generic-device.in.bad.community.names.count
     metadata:
       displayName: Messages with bad community names
       description: Number of messages with an unknown SNMP community
       unit: Count
+      sourceEntityType: snmp:com_dynatrace_extension_snmp_generic_device
   - key: com.dynatrace.extension.snmp-generic-device.in.bad.community.uses.count
     metadata:
       displayName: Messages not allowed in community
       description: Number of messages not allowed for the used SNMP community
       unit: Count
+      sourceEntityType: snmp:com_dynatrace_extension_snmp_generic_device
   - key: com.dynatrace.extension.snmp-generic-device.in.nosuchnames.count
     metadata:
       displayName: "'noSuchName' errors"
       description: "Number of PDUs delivered PDUs with 'noSuchName' error"
       unit: Count
+      sourceEntityType: snmp:com_dynatrace_extension_snmp_generic_device
   - key: com.dynatrace.extension.snmp-generic-device.in.bad.values.count
     metadata:
       displayName: "'badValue' errors"
       description: "Number of PDUs delivered with 'badValue' error"
       unit: Count
+      sourceEntityType: snmp:com_dynatrace_extension_snmp_generic_device
   - key: com.dynatrace.extension.snmp-generic-device.snmp.in.traps.count
     metadata:
       displayName: Traps processed
       description: Total number of SNMP Trap PDUs accepted and processed
       unit: Count
+      sourceEntityType: snmp:com_dynatrace_extension_snmp_generic_device
   - key: com.dynatrace.extension.snmp-generic-device.snmp.out.traps.count
     metadata:
       displayName: Traps generated
       description: Total number of SNMP Trap PDUs generated
       unit: Count
+      sourceEntityType: snmp:com_dynatrace_extension_snmp_generic_device
   - key: com.dynatrace.extension.snmp-generic-device.sys.uptime
     metadata:
       displayName: Time since the last re-start
       description: The time (in hundredths of a second) since the network management portion of the system was last re-initialized
       unit: Unspecified
+      sourceEntityType: snmp:com_dynatrace_extension_snmp_generic_device
   - key: func:com.dynatrace.extension.snmp-generic-device.sys.uptime.millis
     query:
       metricSelector: '(com.dynatrace.extension.snmp-generic-device.sys.uptime) * (10)'
@@ -91,71 +104,85 @@ metrics:
       displayName: Last interface status change
       description: Value of 'sysUpTime' when the interface entered its current state
       unit: Count
+      sourceEntityType: snmp:com_dynatrace_extension_snmp_generic_device_interface
   - key: com.dynatrace.extension.snmp-generic-device.if.in.errors.count
     metadata:
       displayName: Inbound errors
       description: Number of inbound packets/transmission units with errors
       unit: Count
+      sourceEntityType: snmp:com_dynatrace_extension_snmp_generic_device_interface
   - key: com.dynatrace.extension.snmp-generic-device.if.in.discards.count
     metadata:
       displayName: Inbound discards
       description: Number of inbound packets discarded
       unit: Count
+      sourceEntityType: snmp:com_dynatrace_extension_snmp_generic_device_interface
   - key: com.dynatrace.extension.snmp-generic-device.if.out.errors.count
     metadata:
       displayName: Outbound errors
       description: Number of outbound packets/transmission units with errors
       unit: Count
+      sourceEntityType: snmp:com_dynatrace_extension_snmp_generic_device_interface
   - key: com.dynatrace.extension.snmp-generic-device.if.out.discards.count
     metadata:
       displayName: Outbound discards
       description: Number of outbound packets discarded
       unit: Count
+      sourceEntityType: snmp:com_dynatrace_extension_snmp_generic_device_interface
   - key: com.dynatrace.extension.snmp-generic-device.if.out.octets.count
     metadata:
       displayName: Octets transmitted
       description: The total number of octets transmitted out of the interface including framing characters
       unit: Count
+      sourceEntityType: snmp:com_dynatrace_extension_snmp_generic_device_interface
   - key: com.dynatrace.extension.snmp-generic-device.if.hc.out.octets.count
     metadata:
       displayName: Octets transmitted (high capacity)
       description: The total number of octets transmitted out of the interface including framing characters. This metric uses 64 bit counter and should be used for highspeed devices.
       unit: Count
+      sourceEntityType: snmp:com_dynatrace_extension_snmp_generic_device_interface
   - key: com.dynatrace.extension.snmp-generic-device.if.in.octets.count
     metadata:
       displayName: Octets received
       description: The total number of octets received on the interface including framing characters
       unit: Count
+      sourceEntityType: snmp:com_dynatrace_extension_snmp_generic_device_interface
   - key: com.dynatrace.extension.snmp-generic-device.if.hc.in.octets.count
     metadata:
       displayName: Octets received (high capacity)
       description: The total number of octets received on the interface including framing characters. This metric uses 64 bit counter and should be used for highspeed devices.
-      unit: Count      
+      unit: Count
+      sourceEntityType: snmp:com_dynatrace_extension_snmp_generic_device_interface      
   - key: com.dynatrace.extension.snmp-generic-device.tcp.activeopens.count
     metadata:
       displayName: TCP active opens
       description: Number of transitions of TCP connections from CLOSED to SYN-SENT
       unit: Count
+      sourceEntityType: snmp:com_dynatrace_extension_snmp_generic_device
   - key: com.dynatrace.extension.snmp-generic-device.tcp.passiveopens.count
     metadata:
       displayName: TCP passive opens
       description: Number of transitions of TCP connections from CLOSED to SYN-RCVD
       unit: Count
+      sourceEntityType: snmp:com_dynatrace_extension_snmp_generic_device
   - key: com.dynatrace.extension.snmp-generic-device.tcp.attemptfails.count
     metadata:
       displayName: TCP failed attempts
       description: Number of transitions of TCP connections from SYN-SENT/SYN-RCVD to CLOSED and from SYN-RCVD to LISTEN
       unit: Count
+      sourceEntityType: snmp:com_dynatrace_extension_snmp_generic_device
   - key: com.dynatrace.extension.snmp-generic-device.tcp.estab.resets.count
     metadata:
       displayName: TCP resets
       description: Number of transitions of TCP connections from ESTABLISHED/CLOSE-WAIT to CLOSED
       unit: Count
+      sourceEntityType: snmp:com_dynatrace_extension_snmp_generic_device
   - key: com.dynatrace.extension.snmp-generic-device.tcp.curr.estab
     metadata:
       displayName: TCP connections
       description: Number of TCP connections in the ESTABLISHED/CLOSE-WAIT state
       unit: Count
+      sourceEntityType: snmp:com_dynatrace_extension_snmp_generic_device
   - key: func:com.dynatrace.extension.snmp-generic-device.tcp.hc.total
     query:
       metricSelector: '(com.dynatrace.extension.snmp-generic-device.tcp.hc.in.segs.count)+(com.dynatrace.extension.snmp-generic-device.tcp.hc.out.segs.count)'
@@ -168,26 +195,31 @@ metrics:
       displayName: TCP segments received
       description: Total number of segments received (including errors)
       unit: Count
+      sourceEntityType: snmp:com_dynatrace_extension_snmp_generic_device
   - key: com.dynatrace.extension.snmp-generic-device.tcp.hc.out.segs.count
     metadata:
       displayName: TCP segments sent
       description: Total number of segments sent (excluding retransmissions)
       unit: Count
+      sourceEntityType: snmp:com_dynatrace_extension_snmp_generic_device
   - key: com.dynatrace.extension.snmp-generic-device.tcp.retrans.segs.count
     metadata:
       displayName: TCP segments retransmitted
       description: Total number of segments retransmitted
       unit: Count
+      sourceEntityType: snmp:com_dynatrace_extension_snmp_generic_device
   - key: com.dynatrace.extension.snmp-generic-device.tcp.in.errs.count
     metadata:
       displayName: TCP segment errors
       description: Total number of segments received in error
       unit: Count
+      sourceEntityType: snmp:com_dynatrace_extension_snmp_generic_device
   - key: com.dynatrace.extension.snmp-generic-device.tcp.out.rsts.count
     metadata:
       displayName: TCP segment resets
       description: Number of TCP segments sent containing the RST flag
       unit: Count
+      sourceEntityType: snmp:com_dynatrace_extension_snmp_generic_device
   - key: func:com.dynatrace.extension.snmp-generic-device.udp.hc.total
     query:
       metricSelector: '(com.dynatrace.extension.snmp-generic-device.udp.hc.in.datagrams.count)+(com.dynatrace.extension.snmp-generic-device.udp.hc.out.datagrams.count)'
@@ -200,21 +232,25 @@ metrics:
       displayName: UDP datagrams delivered
       description: Total number of UDP datagrams delivered
       unit: Count
+      sourceEntityType: snmp:com_dynatrace_extension_snmp_generic_device
   - key: com.dynatrace.extension.snmp-generic-device.udp.noports.count
     metadata:
       displayName: UDP datagrams received without port
       description: Number of received UDP datagrams (no application at the destination port)
       unit: Count
+      sourceEntityType: snmp:com_dynatrace_extension_snmp_generic_device
   - key: com.dynatrace.extension.snmp-generic-device.udp.in.errors.count
     metadata:
       displayName: UDP datagram errors
       description: Number of received and not delivered UDP datagrams (other than no application at the destination port)
       unit: Count
+      sourceEntityType: snmp:com_dynatrace_extension_snmp_generic_device
   - key: com.dynatrace.extension.snmp-generic-device.udp.hc.out.datagrams.count
     metadata:
       displayName: UDP datagrams sent
       description: Total number of UDP datagrams sent
       unit: Count
+      sourceEntityType: snmp:com_dynatrace_extension_snmp_generic_device
   - key: func:com.dynatrace.extension.snmp-generic-device.totaltraffic
     query:
       metricSelector: '(com.dynatrace.extension.snmp-generic-device.udp.hc.in.datagrams.count)+(com.dynatrace.extension.snmp-generic-device.udp.hc.out.datagrams.count)+(com.dynatrace.extension.snmp-generic-device.tcp.hc.in.segs.count)+(com.dynatrace.extension.snmp-generic-device.tcp.hc.out.segs.count)'
@@ -227,6 +263,7 @@ metrics:
       displayName: Interface speed
       description: Speed of the network interface in MegaBits per second.
       unit: MegaBitPerSecond
+      sourceEntityType: snmp:com_dynatrace_extension_snmp_generic_device_interface
   - key: func:com.dynatrace.extension.snmp-generic-device.if.in.octets.bitpersec
     query:
       metricSelector: '((com.dynatrace.extension.snmp-generic-device.if.in.octets.count) * (8)):rate(1s)'
